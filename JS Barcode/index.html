@@ -1,0 +1,71 @@
+<!--
+Barcode generator:
+Author: Bahar Ali (baharalikhaan@gmail.com)
+Release: May 13, 2020
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
+  <title>Barcode Generator</title>
+</head>
+
+<body>
+
+  Product Code: <select onChange="makeedit()" id="product">
+    <option>FSA22003353 </option>
+    <option>FSA22003354 </option>
+    <option>FSA33003353 </option>
+    <option>FSA33003354 </option>
+    <option>FSA44003353 </option>
+    <option>FSA55003353 </option>
+    <option>FSA55003354 </option>
+    <option>FSA55003355 </option>
+    <option>FSA66003353 </option>
+    <option>FSA66003354 </option>
+    <option>FSA66003355 </option>
+  </select>
+
+  <br><br>
+    Mfg Data: <input onChange="makeedit()" type=date id="mfg"> </input> <br><br>
+   Exp Date: <input onChange="makeedit()" type=date id="exp"> </input> <br><br>
+
+  <div id="DivIdToPrint" class="ticket">
+    <p class="text-center" id="lblmfg" style=" line-height:0.5em; "> &nbsp &nbsp &nbsp MFG: 30-01-2020 </p>
+    <p class="text-center" id="lblexp" style=" line-height:0.5em; "> &nbsp &nbsp &nbsp EXP: 30-02-2020 </p>
+    <svg id="barcode"></svg>
+  </div>
+
+  <button onClick="printDiv()" class="hidden-print">Print Barcode</button>
+
+
+<script src="script.js"></script>
+<script src="barcode.js"></script>
+<script>
+  function makeedit() {
+    var e = document.getElementById("product");
+    var prod = e.options[e.selectedIndex].value;
+    document.getElementById("lblmfg").innerHTML = "Mfg: " + document.getElementById("mfg").value;
+    document.getElementById("lblexp").innerHTML = "Exp: " + document.getElementById("exp").value;
+    JsBarcode("#barcode", prod, {
+      width: 1,
+      height: 40,
+      displayValue: true
+    });
+  }
+  function printDiv() {
+    var divToPrint = document.getElementById('DivIdToPrint');
+    var newWin = window.open('', 'Print-Window');
+    newWin.document.open();
+    newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+    newWin.document.close();
+    setTimeout(function () { newWin.close(); }, 10);
+  }
+</script>
+</body>
+<p>© 2020, baharalikhaan@gmail.com</p>
+</html>
